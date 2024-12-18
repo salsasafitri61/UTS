@@ -13,7 +13,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @if(Auth::user()->role === 'admin')
-                        <x-nav-link :href="route('products')" :active="request()->routeIs('products')">
+                        <x-nav-link :href="route('products.index')" :active="request()->routeIs('products')">
                             {{ __('Products') }}
                         </x-nav-link>
                     @else
@@ -72,7 +72,7 @@
     <div :class="{'block': open, 'hidden': ! open}" class=" hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             @if(Auth::user()->role === 'admin')
-                <x-responsive-nav-link :href="route('products')" :active="request()->routeIs('products')">
+                <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products')">
                     {{ __('Products') }}
                 </x-responsive-nav-link>
             @else

@@ -24,54 +24,55 @@
     </style>
 </head>
 <body class="bg-gray-100">
-    <nav class="bg-purple-600 p-4 text-white">
+    <nav class="bg-pink-600 p-4 text-white">
         <div class="container mx-auto flex justify-between">
             <div>
-                    @auth
-                        @if(auth()->user()->role == 'admin')
-                        <a class="text-xl font-bold">Sastore</a>
-                        @endif
-                    @endauth
-
-                    @guest
-                    <a href="" class="text-xl font-bold">Sastore</a>
-                    @endguest
+                <!-- Logo or Site Name -->
+                <a href="/" class="text-xl font-bold">Sastore</a>
             </div>
+
+         
+
             <div>
-                <ul class="flex space-x-4">
-                    @auth
-                        @if(auth()->user()->role == 'admin')
-                        @else
-                            <li><a href="/beranda" class="hover:underline">Beranda</a></li>
-                        @endif
-                    @endauth
+            <ul class="flex space-x-4">
+    @auth
+        <!-- Authenticated User Menu -->
+        @if(auth()->user()->role == 'admin')
+            <!-- <li><a href="/dashboard" class="hover:underline">Dashboard</a></li> -->
+            <li><a href="{{ route('products.index') }}" class="hover:underline">Produk</a></li>
+            <li><a href="{{ route('order.index') }}" class="hover:underline">Riwayat</a></li>
+            <!-- Tambahkan tautan Kategori -->
+        @else
+            <li><a href="/beranda" class="hover:underline">Beranda</a></li>
+            <li><a href="{{ route('products.index') }}" class="hover:underline">Produk</a></li>
+            <li><a href="{{ route('cart.index') }}" class="hover:underline">Keranjang</a></li>
+            <li><a href="{{ route('order.index') }}" class="hover:underline">Riwayat</a></li>
+        @endif
+        <li>
+            <form action="{{ route('logout') }}" method="POST" class="inline">
+                @csrf
+                <button type="submit" class="hover:underline">Logout</button>
+            </form>
+        </li>
+    @endauth
 
-                    @guest
-                        <li><a href="{{ route('login') }}" class="hover:underline">Login</a></li>
-                        <li><a href="{{ route('register') }}" class="hover:underline">Register</a></li>
-                    @endguest
-
-                    @auth
-                        <li>
-                        <li><a href="{{ route('products') }}" class="hover:underline">keranjang</a></li>
-                            <form action="{{ route('logout') }}" method="POST" class="inline">
-                                @csrf
-                                <button type="submit" class="hover:underline">Logout</button>
-                            </form>
-                        </li>
-                    @endauth
-                </ul>
+    @guest
+        <!-- Guest User Menu -->
+        <li><a href="{{ route('login') }}" class="hover:underline">Login</a></li>
+        <li><a href="{{ route('register') }}" class="hover:underline">Register</a></li>
+    @endguest
+</ul>
             </div>
         </div>
     </nav>
 
     <main class="container mx-auto mt-8">
-        {{ $slot}}
+        {{ $slot }}
     </main>
 
-    <footer class="bg-purple-600 p-4 text-white mt-8">
-        <div class="container mx-auto text-center">
-            &copy; 2024 Sastore - All rights reserved.
+    <footer class="bg-pink-600 p-4 text-white mt-8">
+        <div class="container mx-auto text-center font-bold">
+            <p>10122216-SALSA SAFITRI IKLIMA-IF6</p>
         </div>
     </footer>
 </body>

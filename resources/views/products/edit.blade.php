@@ -1,58 +1,57 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <h1 class="text-2xl font-semibold mb-6 text-center text-gray-800">Edit Produk</h1>
+    <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">Edit Produk</h1>
 
-        <div class="bg-gray-50 rounded-lg p-6">
+        <div class="bg-white shadow-md rounded-lg p-6">
             <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
                 <!-- Nama Produk -->
-                <div class="mb-6">
-                    <x-input-label for="name" :value="__('Nama Produk')" />
-                    <x-text-input id="name" name="name" type="text" class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:ring-gray-400 focus:border-gray-400" value="{{ old('name', $product->name) }}" required />
-                    <x-input-error :messages="$errors->get('name')" />
+                <div class="mb-4">
+                    <label for="name" class="block font-semibold text-gray-700 mb-2">Nama Produk</label>
+                    <input type="text" id="name" name="name" class="w-full p-3 border rounded-md focus:ring-2 focus:ring-pink-500" value="{{ old('name', $product->name) }}" required>
                 </div>
 
                 <!-- Harga Produk -->
-                <div class="mb-6">
-                    <x-input-label for="price" :value="__('Harga')" />
-                    <x-text-input id="price" name="price" type="number" class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:ring-gray-400 focus:border-gray-400" value="{{ old('price', $product->price) }}" required />
-                    <x-input-error :messages="$errors->get('price')" />
+                <div class="mb-4">
+                    <label for="price" class="block font-semibold text-gray-700 mb-2">Harga</label>
+                    <input type="number" id="price" name="price" class="w-full p-3 border rounded-md focus:ring-2 focus:ring-pink-500" value="{{ old('price', $product->price) }}" required>
                 </div>
 
                 <!-- Deskripsi Produk -->
-                <div class="mb-6">
-                    <x-input-label for="description" :value="__('Deskripsi')" />
-                    <x-text-input id="description" name="description" type="text" class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:ring-gray-400 focus:border-gray-400" value="{{ old('description', $product->description) }}" required />
-                    <x-input-error :messages="$errors->get('description')" />
+                <div class="mb-4">
+                    <label for="description" class="block font-semibold text-gray-700 mb-2">Deskripsi</label>
+                    <textarea id="description" name="description" rows="3" class="w-full p-3 border rounded-md focus:ring-2 focus:ring-pink-500" required>{{ old('description', $product->description) }}</textarea>
                 </div>
 
                 <!-- Kategori Produk -->
-                <div class="mb-6">
-                    <x-input-label for="category" :value="__('Kategori')" />
-                    <x-text-input id="category" name="category" type="text" class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:ring-gray-400 focus:border-gray-400" value="{{ old('category', $product->category) }}" required />
-                    <x-input-error :messages="$errors->get('category')" />
+                <div class="mb-4">
+                    <label for="category" class="block font-semibold text-gray-700 mb-2">Kategori</label>
+                    <input type="text" id="category" name="category" class="w-full p-3 border rounded-md focus:ring-2 focus:ring-pink-500" value="{{ old('category', $product->category) }}" required>
+                </div>
+
+                <!-- Stok Produk -->
+                <div class="mb-4">
+                    <label for="stock" class="block font-semibold text-gray-700 mb-2">Stok</label>
+                    <input type="number" id="stock" name="stock" class="w-full p-3 border rounded-md focus:ring-2 focus:ring-pink-500" value="{{ old('stock', $product->stock) }}" required>
                 </div>
 
                 <!-- Gambar Produk -->
-                <div class="mb-6">
-                    <x-input-label for="image" :value="__('Gambar Produk')" />
-                    <x-text-input id="image" name="image" type="file" class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:ring-gray-400 focus:border-gray-400" accept="image/*" />
-                    <x-input-error :messages="$errors->get('image')" />
-                    <div class="mt-4 text-center">
-                        <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" class="w-32 h-32 object-cover rounded-md mx-auto">
-                    </div>
+                <div class="mb-4">
+                    <label for="image" class="block font-semibold text-gray-700 mb-2">Gambar Produk</label>
+                    <input type="file" id="image" name="image" class="w-full p-3 border rounded-md focus:ring-2 focus:ring-pink-500">
+                    @if ($product->image)
+                        <div class="mt-4 text-center">
+                            <img src="{{ Storage::url($product->image)}}" alt="Gambar Produk" class="w-32 h-32 object-cover rounded-md mx-auto shadow-md">
+                        </div>
+                    @endif
                 </div>
 
-                <!-- Tombol Submit dan Batal -->
-                <div class="mt-8 flex justify-center space-x-4">
-                    <x-primary-button class="px-6 py-3 bg-gray-700 text-white rounded-md hover:bg-gray-800 transition-all duration-300">
-                        {{ __('Update Produk') }}
-                    </x-primary-button>
-                    <a href="{{ route('products.index') }}" class="inline-block px-6 py-3 bg-gray-400 text-gray-700 rounded-md hover:bg-gray-500 transition-all duration-300">
-                        {{ __('Batal') }}
-                    </a>
+                <!-- Tombol Submit -->
+                <div class="flex justify-end mt-6">
+                    <a href="{{ route('products.index') }}" class="mr-4 px-4 py-2 bg-pink-600 text-white rounded-md hover:bg-pink-500">Batal</a>
+                    <button type="submit" class="px-4 py-2 bg-pink-600 text-white rounded-md hover:bg-pink-500 transition duration-300">Simpan Perubahan</button>
                 </div>
             </form>
         </div>

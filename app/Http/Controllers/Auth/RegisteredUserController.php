@@ -14,6 +14,7 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
+    
     /**
      * Display the registration view.
      */
@@ -49,14 +50,12 @@ public function store(Request $request): RedirectResponse
         // Men-trigger event setelah pendaftaran
         event(new Registered($user));
 
-        // Login otomatis setelah registrasi
-        Auth::login($user);
+        // Redirect ke halaman login dengan flash message
+        return redirect()->route('login')->with('success', 'Register telah berhasil!');
 
-        // Redirect ke dashboard
-        return redirect(route('dashboard'));
     } catch (\Exception $e) {
         // Menangkap dan menampilkan error
-        return back()->withError('Terjadi kesalahan: ' . $e->getMessage());
+        return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
     }
 }
 

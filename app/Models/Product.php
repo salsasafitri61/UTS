@@ -4,38 +4,31 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes; 
 
 class Product extends Model
 {
-    use HasFactory;
+     use HasFactory, SoftDeletes;  // Use SoftDeletes trait
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'products';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $dates = ['deleted_at'];  
     protected $fillable = [
         'name',
         'price',
         'description',
-        'category',
         'image',
+        'category',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'price' => 'decimal:2',
-    ];
+    // Relasi ke model Cart (produk dapat muncul di banyak keranjang)
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
+      public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_product')
+                    ->withPivot('quantity', 'price')
+                    ->withTimestamps();
+    }
 }

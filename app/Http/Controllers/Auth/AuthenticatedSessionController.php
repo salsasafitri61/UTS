@@ -18,18 +18,26 @@ class AuthenticatedSessionController extends Controller
 
     // Menangani login
     public function store(LoginRequest $request): RedirectResponse
-    {
-        // Cek kredensial dengan menggunakan username
-        if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $request->boolean('remember'))) {
-            // Redirect ke halaman dashboard setelah login berhasil
-            return redirect('/products');
+{
+    // Cek kredensial login dengan username
+    if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $request->boolean('remember'))) {
+        // Regenerate session setelah login
+        $request->session()->regenerate();
+
+        // Redirect berdasarkan role pengguna
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('products.index'); // Redirect ke halaman produk untuk admin
         }
 
-        // Jika login gagal
-        return back()->withErrors([
-            'username' => 'Username atau password salah.',
-        ]);
+        return redirect('/'); // Redirect ke halaman beranda untuk customer
     }
+
+    // Jika login gagal
+    return back()->withErrors([
+        'username' => 'Username atau password salah.',
+    ]);
+}
+
 
     // Menangani logout
     public function destroy(Request $request)
